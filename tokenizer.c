@@ -69,6 +69,9 @@ struct operator *insert(char *name, char *type)
 
 void getAllOperators() {
     insert("(","left parenthesis");
+    insert(")","right parenthesis");
+    
+
 
 }
 
@@ -149,6 +152,10 @@ void getTokens(char *input, int index, char* delimiters, struct token t) {
             {
                 //start a new token adding the char and getting the initial type
                 t = startNewToken(input[index]);
+                struct operator *operator = lookup(t.input);
+                if(operator!=NULL) {
+                    t.inputType = operator->type;
+                }
             }
             else {
                 //temp token input to check if it is 
@@ -156,7 +163,9 @@ void getTokens(char *input, int index, char* delimiters, struct token t) {
                 t.input = appendCharToTokenInput(t.input,input[index]);
             }
             //check if it is a RefCard token
-            //if(lookup())
+           // struct operator *operator = lookup(t.input);
+            //printf("%s", o->type);
+
 
 
 
@@ -184,9 +193,10 @@ void readInput(char *input, char *delimiters) {
 
 
 int main(int argc, char* argv[]) {
-    char *input = "123 stuff";
-    char *delimiters = " \t\v\f\n";
-    getAllOperators();
-    readInput(input,delimiters);
+   // char *input = "123 stuff";
+    char *input = "( ( ( ( 123";
+    char *delimiters = " \t\v\f\n";   //define delimiters
+    getAllOperators();                //define operators
+    readInput(input,delimiters);      //get list of tokens
     return 0;
 }
